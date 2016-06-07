@@ -36,7 +36,7 @@
         [bar setTitleVerticalPositionAdjustment:0 forBarMetrics:UIBarMetricsDefault];
         
         // 5.设置导航栏的样式--影响状态栏中文字的颜色
-        [bar setBarStyle:UIBarStyleBlack];
+        //[bar setBarStyle:UIBarStyleBlack];
         
         // 6.设置标题栏文字的样式
         NSMutableDictionary *attributes = [NSMutableDictionary dictionary];

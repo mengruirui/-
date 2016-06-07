@@ -45,10 +45,12 @@
 }
 - (UIView *)headView{
     
-    UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kWindowW, kWindowW/1240*1200)];
+    UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kWindowW, kWindowH*1189/2201)];
     //headView.backgroundColor = [UIColor redColor];
     UIButton *bannerButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
     self.bannerButton = bannerButton;
+    //按钮点击去掉高亮效果
+    bannerButton.adjustsImageWhenHighlighted = NO;
    // bannerButton.backgroundColor = [UIColor blueColor];
     [headView addSubview:bannerButton];
     [bannerButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -60,6 +62,8 @@
     UIButton *customButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
    // customButton.backgroundColor = [UIColor redColor];
     self.customButton = customButton;
+    //按钮点击去掉高亮效果
+    customButton.adjustsImageWhenHighlighted = NO;
     [headView addSubview:customButton];
     [customButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(bannerButton.mas_bottom).mas_offset(5);
@@ -77,6 +81,10 @@
         _tableView.delegate = self;
         _tableView.showsVerticalScrollIndicator = NO;
         [self.view addSubview:_tableView];
+        //去掉多余的 Cell
+        _tableView.tableFooterView = [UIView new];
+        //去掉 cell 之间的间隔线
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(0);
         }];
@@ -169,13 +177,13 @@
 {
     return 1;
 }
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    if (section == 0) {
-        return @"砍价活动";
-    }
-    return @"";
-}
+//-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+//{
+//    if (section == 0) {
+//        return @"砍价活动";
+//    }
+//    return @"";
+//}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.barVM.rowNumber;
@@ -197,8 +205,42 @@
 {
     return UITableViewAutomaticDimension;
 }
-kRemoveCellSeparator
+//去掉分割线
+//kRemoveCellSeparator
 
+// headSection View
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) {
+        UIView *myView = [[UIView alloc] init];
+        myView.backgroundColor= [UIColor whiteColor];
+        UILabel *yellLb = [UILabel new];
+        yellLb.backgroundColor = [UIColor yellowColor];
+        [myView addSubview:yellLb];
+        [yellLb mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(4, 30));
+            make.left.mas_equalTo(0);
+            make.top.mas_equalTo(8);
+            make.bottom.mas_equalTo(-8);
+        }];
+        UILabel *titleLabel = [[UILabel alloc] init];
+        titleLabel.textColor = kRGBColor(79, 79, 79);
+        titleLabel.font = [UIFont systemFontOfSize:14];
+        titleLabel.text = @"砍价活动";
+        [myView addSubview:titleLabel];
+        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(yellLb.mas_right).mas_offset(5);
+            make.topMargin.mas_equalTo(yellLb.mas_topMargin);
+            make.bottomMargin.mas_equalTo(yellLb.mas_bottomMargin);
+        }];
+        return myView;
+    }
+    return nil;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 35;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

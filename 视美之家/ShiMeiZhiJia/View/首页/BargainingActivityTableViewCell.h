@@ -15,4 +15,5 @@
 @property (nonatomic,strong)UILabel *xlqLb;
 @property (nonatomic,strong)UILabel *dayLb;
 @property (nonatomic,strong)TRImageView *dayIV;
+@property (nonatomic,strong) UIView *view;
 @end
